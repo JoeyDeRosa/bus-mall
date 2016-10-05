@@ -4,3 +4,17 @@
 img{
   width: 200px;
 }
+.pictures{
+  text-align: center;
+  }
+
+  .container img{
+    padding: 10px;
+    width: 280px;
+    height: 250px;
+  }
+
+  .container li{
+    display: inline-block;
+    list-style: none;
+  }
