@@ -99,13 +99,13 @@ function handleImgClick(event){
 }
 
 var id = [];
-var clicks = [];
+var clicked = [];
 var shown = [];
 
 function populateChartArr() {
   for (var i = 0; i < arrayOfPictures.length; i++) {
     id.push(arrayOfPictures[i].id);
-    clicks.push(arrayOfPictures[i].clicks);
+    clicked.push(arrayOfPictures[i].clicked);
     shown.push(arrayOfPictures[i].shown);
   }
 }
@@ -115,7 +115,7 @@ var dataObj = {
     labels: id,
     datasets: [{
       label: '# Images clicked',
-      data: clicks,
+      data: clicked,
       fillColor: '#382765 ',
       backgroundColor: [
         'rgba(255, 99, 132, 0.2)',
