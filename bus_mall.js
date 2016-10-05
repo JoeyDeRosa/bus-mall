@@ -1,5 +1,9 @@
 'use strict';
 
+var images = ['','',''];
+
+var prevImages = ['','',''];
+
 var displayResults = true;
 
 var totalClicks = 0;
@@ -29,8 +33,6 @@ function loadImages() {
   new ImageConstructor('wine-glass', 'img/wine-glass.jpg', 0, 0);
 }
 
-loadImages();
-
 function ImageConstructor(id, src, shown, clicked){
   this.src = src;
   this.id = id;
@@ -40,12 +42,15 @@ function ImageConstructor(id, src, shown, clicked){
 }
 
 function threepics () {
-  var images = [];
   for (var i = 0; i < 3; i++){
     var index = Math.floor(Math.random() * arrayOfPictures.length);
+    while(arrayOfPictures[index] === images[0] || arrayOfPictures[index] === images[1] || arrayOfPictures[index] === images[2] || arrayOfPictures[index] === prevImages[0] || arrayOfPictures[index] === prevImages[1] || arrayOfPictures[index] === prevImages[2]) {
+      index = Math.floor(Math.random() * arrayOfPictures.length);
+    }
+    images[i] = arrayOfPictures[index];
     arrayOfPictures[index].shown++;
     console.log ('shown', arrayOfPictures[index].shown);
-    images.push(arrayOfPictures[index]);
+    images.push();
   }
   return images;
 }
@@ -58,9 +63,10 @@ function renderImg(images){
     liEl.innerHTML = '<img src="' + images[i].src + '" ' + 'id="' + images[i].id + '">';
     container.appendChild(liEl);
   }
+  for(var i = 0; i < 3; i++) {
+    prevImages[i] = images[i];
+  }
 }
-
-renderImg(threepics());
 
 function results() {
   var resultContainer = document.getElementById('results');
@@ -213,4 +219,23 @@ function createChart() {
   populateChartArr();
   var context = document.getElementById('results_chart').getContext('2d');
   var chart = new Chart(context, dataObj);
+  save();
+}
+
+if(localStorage.getItem('images')) {
+  loadImages();
+  renderImg(threepics());
+  var storeImage = localStorage.getItem('images');
+  var parseJSON = JSON.parse(storeImage);
+  arrayOfPictures = parseJSON;
+} else {
+  loadImages();
+  renderImg(threepics());
+  picturesLS = JSON.stringify(arrayOfPictures);
+  localStorage.setItem('images', picturesLS);
+}
+
+function save() {
+  var picturesLS = JSON.stringify(arrayOfPictures);
+  localStorage.setItem('images', picturesLS);
 }
